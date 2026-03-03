@@ -1,0 +1,30 @@
+# Node.js
+node_modules/
+npm-debug.log*
+apps/backend/dist/
+apps/backend/.env
+
+# Flutter / Dart
+apps/mobile/.dart_tool/
+apps/mobile/build/
+apps/mobile/.flutter-plugins
+apps/mobile/.flutter-plugins-dependencies
+apps/mobile/.packages
+apps/mobile/pubspec.lock
+
+# Android
+apps/mobile/android/.gradle/
+apps/mobile/android/local.properties
+apps/mobile/android/app/debug/
+apps/mobile/android/app/release/
+apps/mobile/android/app/profile/
+apps/mobile/android/hs_err_pid*
+
+# iOS
+apps/mobile/ios/Pods/
+apps/mobile/ios/.symlinks/
+
+# Misc
+*.log
+.DS_Store
+Thumbs.db
