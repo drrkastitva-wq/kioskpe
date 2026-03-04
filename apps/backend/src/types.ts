@@ -76,6 +76,17 @@ export type CourtScope =
   | "patna_hc"
   | "hyderabad_hc";
 
+// Vacation range – expanded to individual days in the API
+export interface CourtVacation {
+  id: string;
+  name: string;
+  startDate: string;
+  endDate: string;
+  courts: CourtScope[];
+  year: number;
+  description?: string;
+}
+
 export interface CourtHoliday {
   id: string;
   date: string;

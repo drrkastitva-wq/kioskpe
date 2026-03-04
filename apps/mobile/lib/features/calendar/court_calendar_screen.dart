@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/constants/api_constants.dart';
@@ -74,14 +75,32 @@ class _Court {
   final String id;
   final String label;
   final String city;
+  final String state;
+  final String website;
+  final String calendarUrl;
+  final String description;
 
-  const _Court({required this.id, required this.label, required this.city});
+  const _Court({
+    required this.id,
+    required this.label,
+    required this.city,
+    this.state = '',
+    this.website = '',
+    this.calendarUrl = '',
+    this.description = '',
+  });
 
   factory _Court.fromJson(Map<String, dynamic> j) => _Court(
         id: j['id']?.toString() ?? '',
         label: j['label']?.toString() ?? '',
         city: j['city']?.toString() ?? '',
+        state: j['state']?.toString() ?? '',
+        website: j['website']?.toString() ?? '',
+        calendarUrl: j['calendarUrl']?.toString() ?? '',
+        description: j['description']?.toString() ?? '',
       );
+
+  String get effectiveWebsite => calendarUrl.isNotEmpty ? calendarUrl : website;
 }
 
 // ─── Screen ───────────────────────────────────────────────────────────────────
@@ -119,7 +138,7 @@ class _CourtCalendarScreenState extends State<CourtCalendarScreen> {
       final list = (data['courts'] ?? data) as List;
       setState(() {
         _courts = [
-          const _Court(id: 'all', label: 'All Courts (National)', city: 'India'),
+          const _Court(id: 'all', label: 'All Courts (National)', city: 'India', state: 'India', website: 'https://ecourts.gov.in'),
           ...list.map((c) => _Court.fromJson(c as Map<String, dynamic>)),
         ];
         _loadingCourts = false;
@@ -196,33 +215,89 @@ class _CourtCalendarScreenState extends State<CourtCalendarScreen> {
                     height: 44,
                     child: Center(child: LinearProgressIndicator(color: Colors.white70, backgroundColor: Colors.white24)),
                   )
-                : Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.white30),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: _selectedCourtId,
-                        dropdownColor: const Color(0xFF1A237E),
-                        style: const TextStyle(color: Colors.white, fontSize: 14),
-                        icon: const Icon(Icons.expand_more, color: Colors.white),
-                        isExpanded: true,
-                        items: _courts.map((c) => DropdownMenuItem(
-                          value: c.id,
-                          child: Text('${c.label}  •  ${c.city}',
-                              style: const TextStyle(color: Colors.white, fontSize: 13)),
-                        )).toList(),
-                        onChanged: (val) {
-                          if (val != null && val != _selectedCourtId) {
-                            setState(() => _selectedCourtId = val);
-                            _loadHolidays();
-                          }
-                        },
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.white30),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: _selectedCourtId,
+                            dropdownColor: const Color(0xFF1A237E),
+                            style: const TextStyle(color: Colors.white, fontSize: 14),
+                            icon: const Icon(Icons.expand_more, color: Colors.white),
+                            isExpanded: true,
+                            items: _courts.map((c) => DropdownMenuItem(
+                              value: c.id,
+                              child: Text('${c.label}  •  ${c.city}',
+                                  style: const TextStyle(color: Colors.white, fontSize: 13)),
+                            )).toList(),
+                            onChanged: (val) {
+                              if (val != null && val != _selectedCourtId) {
+                                setState(() => _selectedCourtId = val);
+                                _loadHolidays();
+                              }
+                            },
+                          ),
+                        ),
                       ),
-                    ),
+                      // Court info row (state + website button)
+                      Builder(builder: (context) {
+                        final court = _courts.firstWhere(
+                          (c) => c.id == _selectedCourtId,
+                          orElse: () => const _Court(id: '', label: '', city: ''),
+                        );
+                        final hasWebsite = court.effectiveWebsite.isNotEmpty;
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Row(
+                            children: [
+                              if (court.state.isNotEmpty) ...[  
+                                const Icon(Icons.location_on, color: Colors.white70, size: 13),
+                                const SizedBox(width: 3),
+                                Text(
+                                  court.state,
+                                  style: const TextStyle(color: Colors.white70, fontSize: 12),
+                                ),
+                                const SizedBox(width: 12),
+                              ],
+                              if (hasWebsite)
+                                InkWell(
+                                  onTap: () async {
+                                    final uri = Uri.parse(court.effectiveWebsite);
+                                    if (await canLaunchUrl(uri)) {
+                                      await launchUrl(uri, mode: LaunchMode.externalApplication);
+                                    }
+                                  },
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.15),
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(color: Colors.white38),
+                                    ),
+                                    child: const Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(Icons.open_in_browser, color: Colors.white, size: 13),
+                                        SizedBox(width: 5),
+                                        Text('Official Calendar',
+                                            style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        );
+                      }),
+                    ],
                   ),
           ),
 
