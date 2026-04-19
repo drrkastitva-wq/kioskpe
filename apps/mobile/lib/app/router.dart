@@ -39,12 +39,23 @@ class _AdvocateShellState extends State<_AdvocateShell> {
     '/dashboard',
     '/cases',
     '/diary',
+    '/calendar',
     '/reminders',
     '/profile',
   ];
 
+  void _updateIndex(String location) {
+    final idx = _tabs.indexWhere((t) => location.startsWith(t));
+    if (idx >= 0 && idx != _currentIndex) setState(() => _currentIndex = idx);
+  }
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final loc = GoRouterState.of(context).matchedLocation;
+      _updateIndex(loc);
+    });
+
     return Scaffold(
       body: widget.child,
       bottomNavigationBar: BottomNavigationBar(
@@ -53,10 +64,13 @@ class _AdvocateShellState extends State<_AdvocateShell> {
           setState(() => _currentIndex = i);
           context.go(_tabs[i]);
         },
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.textSecondary,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.dashboard_outlined), activeIcon: Icon(Icons.dashboard), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.folder_outlined), activeIcon: Icon(Icons.folder), label: 'Cases'),
           BottomNavigationBarItem(icon: Icon(Icons.book_outlined), activeIcon: Icon(Icons.book), label: 'Diary'),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_month_outlined), activeIcon: Icon(Icons.calendar_month), label: 'Calendar'),
           BottomNavigationBarItem(icon: Icon(Icons.alarm_outlined), activeIcon: Icon(Icons.alarm), label: 'Reminders'),
           BottomNavigationBarItem(icon: Icon(Icons.person_outline), activeIcon: Icon(Icons.person), label: 'Profile'),
         ],
@@ -164,6 +178,7 @@ GoRouter buildRouter(AuthProvider auth) {
           GoRoute(path: '/dashboard', builder: (_, __) => const DashboardScreen()),
           GoRoute(path: '/cases',     builder: (_, __) => const CasesListScreen()),
           GoRoute(path: '/diary',     builder: (_, __) => const DiaryScreen()),
+          GoRoute(path: '/calendar',  builder: (_, __) => const CourtCalendarScreen()),
           GoRoute(path: '/reminders', builder: (_, __) => const RemindersScreen()),
           GoRoute(path: '/profile',   builder: (_, __) => const ProfileScreen()),
         ],

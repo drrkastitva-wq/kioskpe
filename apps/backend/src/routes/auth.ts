@@ -26,7 +26,7 @@ router.post("/login", async (req: Request, res: Response) => {
 
     const token = makeToken(user._id.toString(), user.role);
     const pub = user.toObject();
-    delete (pub as Record<string, unknown>).passwordHash;
+    delete (pub as unknown as Record<string, unknown>).passwordHash;
     return res.json({ token, user: { ...pub, id: user._id.toString() } });
   } catch (e) {
     console.error("login error", e);
@@ -63,7 +63,7 @@ router.post("/register", async (req: Request, res: Response) => {
 
     const token = makeToken(user._id.toString(), user.role);
     const pub = user.toObject();
-    delete (pub as Record<string, unknown>).passwordHash;
+    delete (pub as unknown as Record<string, unknown>).passwordHash;
     return res.status(201).json({ token, user: { ...pub, id: user._id.toString() } });
   } catch (e) {
     console.error("register error", e);
@@ -83,7 +83,7 @@ router.get("/me", async (req: Request, res: Response) => {
     if (!user) return res.status(401).json({ message: "User not found" });
 
     const pub = user.toObject();
-    delete (pub as Record<string, unknown>).passwordHash;
+    delete (pub as unknown as Record<string, unknown>).passwordHash;
     return res.json({ user: { ...pub, id: user._id.toString() } });
   } catch {
     return res.status(401).json({ message: "Invalid or expired token" });

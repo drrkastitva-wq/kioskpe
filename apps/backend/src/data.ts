@@ -1,4 +1,4 @@
-import { CaseItem, CourtHoliday, CourtVacation, DiaryEntry, HelpRequest, ReminderItem } from "./types";
+import { BareAct, CaseItem, CourtHoliday, CourtVacation, DiaryEntry, HelpRequest, ReminderItem } from "./types";
 
 // ─── ID generator ─────────────────────────────────────────────────────────────
 export const makeId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
@@ -9,6 +9,63 @@ const makeRef = () => {
 };
 
 // ─── Cases (seeded) ───────────────────────────────────────────────────────────
+export const bareActs: BareAct[] = [
+  { id: "bare-001", title: "Constitution of India", year: "1950", category: "Constitutional" },
+  { id: "bare-002", title: "Indian Penal Code", year: "1860", category: "Criminal" },
+  { id: "bare-003", title: "Code of Criminal Procedure", year: "1973", category: "Procedural" },
+  { id: "bare-004", title: "Indian Evidence Act", year: "1872", category: "Evidence" },
+  { id: "bare-005", title: "Code of Civil Procedure", year: "1908", category: "Civil" },
+  { id: "bare-006", title: "Transfer of Property Act", year: "1882", category: "Property" },
+  { id: "bare-007", title: "Indian Contract Act", year: "1872", category: "Contract" },
+  { id: "bare-008", title: "Negotiable Instruments Act", year: "1881", category: "Commercial" },
+  { id: "bare-009", title: "Motor Vehicles Act", year: "1988", category: "Motor" },
+  { id: "bare-010", title: "Consumer Protection Act", year: "2019", category: "Consumer" },
+  { id: "bare-011", title: "Right to Information Act", year: "2005", category: "Administrative" },
+  { id: "bare-012", title: "Arbitration and Conciliation Act", year: "1996", category: "Arbitration" },
+  { id: "bare-013", title: "Specific Relief Act", year: "1963", category: "Civil" },
+  { id: "bare-014", title: "Limitation Act", year: "1963", category: "Civil" },
+  { id: "bare-015", title: "Income Tax Act", year: "1961", category: "Taxation" },
+  { id: "bare-016", title: "Goods and Services Tax Act", year: "2017", category: "Taxation" },
+  { id: "bare-017", title: "Companies Act", year: "2013", category: "Corporate" },
+  { id: "bare-018", title: "Prevention of Corruption Act", year: "1988", category: "Criminal" },
+  { id: "bare-019", title: "Information Technology Act", year: "2000", category: "Cyber" },
+  { id: "bare-020", title: "Bharatiya Nyaya Sanhita", year: "2023", category: "Criminal" },
+  { id: "bare-021", title: "Bharatiya Nagarik Suraksha Sanhita", year: "2023", category: "Procedural" },
+  { id: "bare-022", title: "Bharatiya Sakshya Adhiniyam", year: "2023", category: "Evidence" },
+  { id: "bare-023", title: "Hindu Marriage Act", year: "1955", category: "Family" },
+  { id: "bare-024", title: "Hindu Succession Act", year: "1956", category: "Family" },
+  { id: "bare-025", title: "Special Marriage Act", year: "1954", category: "Family" },
+  { id: "bare-026", title: "Muslim Personal Law (Shariat) Application Act", year: "1937", category: "Family" },
+  { id: "bare-027", title: "Protection of Women from Domestic Violence Act", year: "2005", category: "Family" },
+  { id: "bare-028", title: "Protection of Children from Sexual Offences Act", year: "2012", category: "Criminal" },
+  { id: "bare-029", title: "Indian Succession Act", year: "1925", category: "Civil" },
+  { id: "bare-030", title: "Indian Trusts Act", year: "1882", category: "Civil" },
+  { id: "bare-031", title: "Indian Partnership Act", year: "1932", category: "Commercial" },
+  { id: "bare-032", title: "Family Courts Act", year: "1984", category: "Family" },
+  { id: "bare-033", title: "Guardians and Wards Act", year: "1890", category: "Family" },
+  { id: "bare-034", title: "Juvenile Justice Act", year: "2015", category: "Social" },
+  { id: "bare-035", title: "Right of Children to Free and Compulsory Education Act", year: "2009", category: "Social" },
+  { id: "bare-036", title: "Environment Protection Act", year: "1986", category: "Environment" },
+  { id: "bare-037", title: "Wildlife Protection Act", year: "1972", category: "Environment" },
+  { id: "bare-038", title: "Factories Act", year: "1948", category: "Labour" },
+  { id: "bare-039", title: "Payment of Wages Act", year: "1936", category: "Labour" },
+  { id: "bare-040", title: "Minimum Wages Act", year: "1948", category: "Labour" },
+  { id: "bare-041", title: "Industrial Disputes Act", year: "1947", category: "Labour" },
+  { id: "bare-042", title: "Employees' Provident Funds and Miscellaneous Provisions Act", year: "1952", category: "Labour" },
+  { id: "bare-043", title: "Payment of Gratuity Act", year: "1972", category: "Labour" },
+  { id: "bare-044", title: "Banking Regulation Act", year: "1949", category: "Financial" },
+  { id: "bare-045", title: "Foreign Exchange Management Act", year: "1999", category: "Financial" },
+  { id: "bare-046", title: "Prevention of Money Laundering Act", year: "2002", category: "Financial" },
+  { id: "bare-047", title: "Insolvency and Bankruptcy Code", year: "2016", category: "Financial" },
+  { id: "bare-048", title: "Competition Act", year: "2002", category: "Corporate" },
+  { id: "bare-049", title: "Copyright Act", year: "1957", category: "Intellectual Property" },
+  { id: "bare-050", title: "Patents Act", year: "1970", category: "Intellectual Property" },
+  { id: "bare-051", title: "Trade Marks Act", year: "1999", category: "Intellectual Property" },
+  { id: "bare-052", title: "Foreign Contribution (Regulation) Act", year: "2010", category: "Social" },
+  { id: "bare-053", title: "National Food Security Act", year: "2013", category: "Social" },
+  { id: "bare-054", title: "Child Labour (Prohibition and Regulation) Act", year: "1986", category: "Labour" },
+];
+
 export const cases: CaseItem[] = [
   {
     id: "case-001",

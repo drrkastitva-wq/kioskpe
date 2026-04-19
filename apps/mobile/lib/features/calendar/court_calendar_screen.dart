@@ -119,7 +119,9 @@ class _CourtCalendarScreenState extends State<CourtCalendarScreen> {
 
   // Data
   Map<DateTime, List<_Holiday>> _holidayMap = {};
-  List<_Court> _courts = [];
+  List<_Court> _courts = [
+    const _Court(id: 'all', label: 'All Courts (National)', city: 'India', state: 'India', website: 'https://ecourts.gov.in'),
+  ];
   String _selectedCourtId = 'all';
   bool _loadingCourts = true;
   bool _loadingHolidays = true;
@@ -136,16 +138,26 @@ class _CourtCalendarScreenState extends State<CourtCalendarScreen> {
     try {
       final data = await ApiService.get(ApiConstants.calendarCourts);
       final list = (data['courts'] ?? data) as List;
+      // Filter out any court with id 'all' from API to avoid duplicate DropdownMenuItem values
+      final apiCourts = list
+          .map((c) => _Court.fromJson(c as Map<String, dynamic>))
+          .where((c) => c.id != 'all')
+          .toList();
       setState(() {
         _courts = [
           const _Court(id: 'all', label: 'All Courts (National)', city: 'India', state: 'India', website: 'https://ecourts.gov.in'),
-          ...list.map((c) => _Court.fromJson(c as Map<String, dynamic>)),
+          ...apiCourts,
         ];
+        // Ensure selected value still exists
+        if (!_courts.any((c) => c.id == _selectedCourtId)) {
+          _selectedCourtId = 'all';
+        }
         _loadingCourts = false;
       });
     } catch (_) {
       setState(() {
         _courts = [const _Court(id: 'all', label: 'All Courts (National)', city: 'India')];
+        _selectedCourtId = 'all';
         _loadingCourts = false;
       });
     }
@@ -227,7 +239,9 @@ class _CourtCalendarScreenState extends State<CourtCalendarScreen> {
                         ),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
-                            value: _selectedCourtId,
+                            value: _courts.any((c) => c.id == _selectedCourtId)
+                                ? _selectedCourtId
+                                : _courts.first.id,
                             dropdownColor: const Color(0xFF1A237E),
                             style: const TextStyle(color: Colors.white, fontSize: 14),
                             icon: const Icon(Icons.expand_more, color: Colors.white),

@@ -252,6 +252,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       _QuickAction(
           Icons.account_balance_outlined, 'Courts', AppColors.success, '/courts'),
       _QuickAction(
+          Icons.calendar_month, 'Court Calendar', const Color(0xFF1B5E20), '/calendar'),
+      _QuickAction(
           Icons.description_outlined, 'Templates', AppColors.primaryLight, '/templates'),
       _QuickAction(
           Icons.menu_book_outlined, 'Bare Acts', AppColors.accentDark, '/bare-acts'),

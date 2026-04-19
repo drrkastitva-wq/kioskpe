@@ -8,6 +8,7 @@ import { remindersRouter } from "./routes/reminders";
 import { advocatesRouter } from "./routes/advocates";
 import { caseTrackerRouter } from "./routes/caseTracker";
 import { calendarRouter } from "./routes/calendar";
+import { libraryRouter } from "./routes/library";
 import { connectMongo, seedDemoUsers } from "./db/mongo";
 import { initPostgres } from "./db/postgres";
 
@@ -32,6 +33,7 @@ app.use("/api/diary",    diaryRouter);
 app.use("/api/advocates", advocatesRouter);
 app.use("/api/track",    caseTrackerRouter);
 app.use("/api/client",   caseTrackerRouter);   // → /api/client/help-requests
+app.use("/api/library",  libraryRouter);      // → /api/library/bare-acts
 app.use("/api/calendar", calendarRouter);      // → /api/calendar/holidays, /courts
 
 // ─── API index ────────────────────────────────────────────────────────────────
@@ -49,6 +51,7 @@ app.get("/api", (_req, res) => {
       track:        ["/api/track/:caseId"],
       helpRequests: ["/api/client/help-requests"],
       calendar:     ["/api/calendar/holidays?year=&month=&court=", "/api/calendar/courts"],
+      library:      ["/api/library/bare-acts"],
     },
   });
 });

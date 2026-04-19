@@ -28,13 +28,31 @@ jobs:
         run: flutter pub get
         working-directory: apps/mobile
 
-      - name: Build debug APK
-        run: flutter build apk --debug
+      - name: Prepare Android signing
+        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_KEYSTORE_PASSWORD != '' && secrets.ANDROID_KEY_ALIAS != '' && secrets.ANDROID_KEY_PASSWORD != '' }}
+        run: |
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > apps/mobile/android/app/release-keystore.jks
+          cat > apps/mobile/key.properties <<'EOF'
+          storePassword=$ANDROID_KEYSTORE_PASSWORD
+          keyPassword=$ANDROID_KEY_PASSWORD
+          keyAlias=$ANDROID_KEY_ALIAS
+          storeFile=android/app/release-keystore.jks
+          EOF
         working-directory: apps/mobile
 
-      - name: Upload APK artifact
+      - name: Build release APK
+        run: flutter build apk --release
+        working-directory: apps/mobile
+
+      - name: Build release App Bundle
+        run: flutter build appbundle --release
+        working-directory: apps/mobile
+
+      - name: Upload release artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: letslegal-debug-apk
-          path: apps/mobile/build/app/outputs/flutter-apk/app-debug.apk
+          name: letslegal-release-artifacts
+          path: |
+            apps/mobile/build/app/outputs/flutter-apk/app-release.apk
+            apps/mobile/build/app/outputs/bundle/release/app-release.aab
           retention-days: 30
