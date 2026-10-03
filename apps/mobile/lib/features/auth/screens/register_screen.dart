@@ -267,7 +267,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     children: [
       Text('I am a…', style: Theme.of(context).textTheme.headlineMedium),
       const SizedBox(height: 6),
-      Text("Choose how you want to use Let's Legal",
+      Text('Choose how you want to use Advocate Connect',
           style: Theme.of(context).textTheme.bodyMedium),
       const SizedBox(height: 28),
       _typeCard(

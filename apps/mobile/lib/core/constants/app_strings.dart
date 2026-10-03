@@ -1,6 +1,6 @@
 class AppStrings {
-  static const String appName = "Let's Legal";
-  static const String tagline = 'Your Legal Practice Companion';
+  static const String appName = 'Advocate Connect';
+  static const String tagline = 'Stronger Together for Justice';
 
   // Auth
   static const String login = 'Login';

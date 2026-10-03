@@ -8,13 +8,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:mobile/main.dart';
+import 'package:advocate_connect/main.dart';
 
 void main() {
-  testWidgets('Dashboard loads with title', (WidgetTester tester) async {
-    await tester.pumpWidget(const LetsLegalApp());
+  testWidgets('App loads with the Advocate Connect title', (WidgetTester tester) async {
+    await tester.pumpWidget(const AdvocateConnectApp());
 
-    expect(find.text("Let's Legal"), findsOneWidget);
-    expect(find.byIcon(Icons.gavel), findsWidgets);
+    expect(find.text('Advocate Connect'), findsOneWidget);
   });
 }

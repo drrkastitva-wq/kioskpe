@@ -8,7 +8,6 @@ import { remindersRouter } from "./routes/reminders";
 import { advocatesRouter } from "./routes/advocates";
 import { caseTrackerRouter } from "./routes/caseTracker";
 import { calendarRouter } from "./routes/calendar";
-import { libraryRouter } from "./routes/library";
 import { connectMongo, seedDemoUsers } from "./db/mongo";
 import { initPostgres } from "./db/postgres";
 
@@ -22,7 +21,7 @@ app.use(express.json());
 
 // ─── Health ────────────────────────────────────────────────────────────────────
 app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "lets-legal-backend", timestamp: new Date().toISOString() });
+  res.json({ status: "ok", service: "advocate-connect-backend", timestamp: new Date().toISOString() });
 });
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
@@ -33,13 +32,12 @@ app.use("/api/diary",    diaryRouter);
 app.use("/api/advocates", advocatesRouter);
 app.use("/api/track",    caseTrackerRouter);
 app.use("/api/client",   caseTrackerRouter);   // → /api/client/help-requests
-app.use("/api/library",  libraryRouter);      // → /api/library/bare-acts
 app.use("/api/calendar", calendarRouter);      // → /api/calendar/holidays, /courts
 
 // ─── API index ────────────────────────────────────────────────────────────────
 app.get("/api", (_req, res) => {
   res.json({
-    name: "Let's Legal API",
+    name: "Advocate Connect API",
     version: "2.0.0",
     databases: { auth: "MongoDB Atlas", appData: "PostgreSQL (local)" },
     endpoints: {
@@ -77,7 +75,7 @@ async function boot() {
   }
 
   app.listen(port, () => {
-    console.log(`\n🏛  Let's Legal backend running on http://localhost:${port}`);
+    console.log(`\n🏛  Advocate Connect backend running on http://localhost:${port}`);
     console.log(`📋  API info: http://localhost:${port}/api`);
     console.log(`🍃  Auth DB : MongoDB Atlas (connected)`);
     console.log(`🐘  App DB  : PostgreSQL localhost:${process.env.PG_PORT ?? 5432}\n`);

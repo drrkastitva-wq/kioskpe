@@ -1,5 +1,5 @@
-name: lets_legal
-description: "Let's Legal - Legal Practice Management App for Indian Advocates"
+name: advocate_connect
+description: "Advocate Connect - Legal Practice Management App for Indian Advocates"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -65,6 +65,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/images/advocate_connect_logo.jpeg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

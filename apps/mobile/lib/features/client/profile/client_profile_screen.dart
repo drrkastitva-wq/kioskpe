@@ -143,7 +143,7 @@ class ClientProfileScreen extends StatelessWidget {
 
                 const SizedBox(height: 40),
                 const Center(
-                  child: Text("Let's Legal — Justice for All",
+                  child: Text('Advocate Connect — Justice for All',
                       style: TextStyle(color: AppColors.textHint, fontSize: 12)),
                 ),
                 const SizedBox(height: 24),

@@ -43,10 +43,10 @@ function expandVacations(year: number, courtParam: string): CourtHoliday[] {
     let cur = new Date(start);
     let i = 0;
     while (cur <= end) {
-      const dateStr   = cur.toISOString().split("T")[0];
-      const isFirst   = i === 0;
-      const isLast    = cur.getTime() === end.getTime();
-      const title     = isFirst
+      const dateStr = cur.toISOString().slice(0, 10);
+      const isFirst = i === 0;
+      const isLast = cur.getTime() === end.getTime();
+      const title = isFirst
         ? `${v.name} begins`
         : isLast
         ? `${v.name} ends`

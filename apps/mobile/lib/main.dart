@@ -9,11 +9,11 @@ import 'app/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const LetsLegalApp());
+  runApp(const AdvocateConnectApp());
 }
 
-class LetsLegalApp extends StatelessWidget {
-  const LetsLegalApp({super.key});
+class AdvocateConnectApp extends StatelessWidget {
+  const AdvocateConnectApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class _AppRoot extends StatelessWidget {
     final router = buildRouter(auth);
 
     return MaterialApp.router(
-      title: "Let's Legal",
+      title: "Advocate Connect",
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       routerConfig: router,

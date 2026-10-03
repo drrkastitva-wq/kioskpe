@@ -1,11 +1,11 @@
 {
-    "name": "mobile",
-    "short_name": "mobile",
+    "name": "Advocate Connect",
+    "short_name": "Advocate Connect",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Advocate Connect - Legal Practice Management App for Indian Advocates",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

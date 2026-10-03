@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Advocate Connect APK
 
 on:
   push:
@@ -51,7 +51,7 @@ jobs:
       - name: Upload release artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: letslegal-release-artifacts
+          name: advocate-connect-release-artifacts
           path: |
             apps/mobile/build/app/outputs/flutter-apk/app-release.apk
             apps/mobile/build/app/outputs/bundle/release/app-release.aab
